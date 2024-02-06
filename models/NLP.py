@@ -74,7 +74,7 @@ class NLP:
             self.update_weights_bias(dx, learning_rate)
             print(f'Error en la epoca {epochs + 1}: {error}')
 
-    def train(self, X_train, y_train, epochs=100):
+    def train(self, X_train, y_train, epochs=1000):
         """
         Entrean la red neuronal
         :param X_train: Conjuntod de datos de entranamiento
@@ -82,7 +82,7 @@ class NLP:
         :param epochs: Numero de iteraciones o epocas de training
 
         """
-
+        self.loss_history = []  # Initialize empty list
         for epoch in range(epochs):
             predictions = self.forward_propagation(X_train)
             error = mean_squared_error(predictions, y_train)
@@ -90,6 +90,7 @@ class NLP:
             dx = self.calculate_derivada(predictions, y_train)
             # Actualizar lo pesos y bias
             self.update_weights_bias(dx, self.learning_rate)
+            self.loss_history.append(error)
             print(f'Error en la epoca {epoch}:{error}')
 
     def predict(self, input_data):
@@ -99,7 +100,7 @@ class NLP:
         :return:
         """
         activations = self.forward_propagation(input_data)
-        return activations[-1]
+        return activations
 
     def calculate_derivada(self, forward_output, y_true):
         """
@@ -116,26 +117,25 @@ class NLP:
         d_error = 2 * (forward_output - y_true) / len(y_true)
 
         # Retropropagación a través de las capas
-        for i in reversed(range(self.n_layers)):
+        for i in range(self.n_layers -2,-1, -1):
+            # Retropropagación a través de las capas
+
             # Calcular la derivada de la función de activación
-            if i + 1 < len(self.activations):
-                d_activation = sigmoid_function(self.activations[i + 1], derivative=True)
+            d_activation = sigmoid_function(self.activations[i], derivative=True)
 
-                # Calcular la derivada del error con respecto a la entrada de la capa
-                d_error_input = d_error * d_activation
+            # Calcular la derivada del error con respecto a la entrada de la capa
+            d_error_input = d_error * d_activation
 
-                # Calcular la derivada del error con respecto a los pesos y sesgos
-                d_weights = np.dot(self.activations[i].T, d_error_input)
-                d_bias = np.sum(d_error_input, axis=0)
+            # Calcular la derivada del error con respecto a los pesos y sesgos
+            d_weights = np.dot(self.activations[i].T, d_error_input)
+            d_bias = np.sum(d_error_input, axis=0)
 
-                # Almacenar las derivadas en el diccionario
-                derivatives['weights'].insert(0, d_weights)
-                derivatives['bias'].insert(0, d_bias)
+            # Almacenar las derivadas en el diccionario
+            derivatives['weights'].insert(0, d_weights)
+            derivatives['bias'].insert(0, d_bias)
 
-                # Calcular la derivada del error con respecto a la salida de la capa anterior
-                d_error = np.dot(d_error_input, self.weights[i].T)
-            else:
-                print(f"Error: No hay suficientes elementos en self.activations para el índice {i + 1}")
+            # Calcular la derivada del error con respecto a la salida de la capa anterior
+            d_error = np.dot(d_error_input, self.weights[i].T)
 
         return derivatives
 

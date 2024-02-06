@@ -16,35 +16,14 @@ def main():
 
     n_input = X_xor.shape[1]
     n_layers = 2
-    n_neurons_layer = [5, 2]
+    n_neurons_layer = [15, 2]
     activation_function = sigmoid_function
     learning_rate = 0.1
 
     nlp = NLP(n_layers=n_layers, n_neurons_layer=n_neurons_layer, activation_function=activation_function,
               input_features=n_input, learning_rate=learning_rate)
-
-    predictions = nlp.forward_propagation(X_train)
-
-    for i in range(len(X_train)):
-        print(f"Predicción: {predictions[i]}")
-        print(f"Etiqueta real: {y_train[i]}")
-    errors = []
-    epochs = 100
-    for epoch in range(epochs):
-        predictions = nlp.forward_propagation(X_train)
-        error = mean_squared_error(predictions, y_train)
-        errors.append(error)
-    print(f'Errores: {errors}')
-
-    nlp.train(X_train, y_train, epochs=100)
-    predictions = nlp.forward_propagation(X_test)
-    predictions_binary = np.where(predictions > 0.5, 1, 0)
-
-    mse = mean_squared_error(predictions, y_test)
-    accuracy = accuracy_score(y_test, predictions_binary)
-
-    print(f'MSE: {mse}')
-    print("Precisión:", accuracy)
+    epochs = 1000
+    nlp.train(X_train, y_train, epochs=epochs)
 
 
 if __name__ == '__main__':

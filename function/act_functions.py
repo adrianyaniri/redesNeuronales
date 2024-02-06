@@ -16,7 +16,17 @@ def sigmoid_function(z, derivative=False):
         return 1 / (1 + np.exp(-z))
 
 
-tanh_function = lambda x: np.tanh(x)
-dTanh_function = lambda x: 1 - np.tanh(x) ** 2
+def tanh(z, derivative=False):
+    """
+    Funcion de activacion tangencia
+    :param z:
+    :param derivative:
+    :return:
+    """
+    if derivative:
+        return 1 - np.tanh(z)**2
+    else:
+        return np.tanh(z)
+
 
 relu = lambda x: np.maximum(0, x)

@@ -25,7 +25,7 @@ def datos_xor(n_samples, n_features):
     """
 
     X = np.random.rand(n_samples, n_features)
-    y1 = np.where((X[:, 0] < 0.5) & (X[:, 1] > 0.5) | (X[:, 0] > 0.5) & (X[:, 1] < 0.5), 1, 0)
-    y2 = np.where((X[:, 0] < 0.5) & (X[:, 1] > 0.5) | (X[:, 0] > 0.5) & (X[:, 1] < 0.5), 0, 1)
+    y1 = np.where((X[:, 0] < 0.5) & (X[:, 1] < 0.5) | (X[:, 0] > 0.5) & (X[:, 1] > 0.5), 1, 0)
+    y2 = np.where((X[:, 0] < 0.5) & (X[:, 1] < 0.5) | (X[:, 0] > 0.5) & (X[:, 1] > 0.5), 0, 1)
     y = np.column_stack((y1, y2))
     return X, y
