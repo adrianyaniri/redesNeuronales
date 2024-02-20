@@ -12,5 +12,6 @@ def mean_squared_error(y_true, y_pred):
     Devuelve:
     - MSE: Valor de la pérdida MSE.
     """
-    mse = np.mean(np.square(y_true - y_pred))
+    z = np.square(y_true - y_pred)
+    mse = np.mean(z)
     return mse
