@@ -24,7 +24,7 @@ class PerceptronMultilayer:
         Se inicializa de forma aleatoria, de forma uniforme entre -1 - 1
         """
         for i in range(len(layer_sizes) - 1):
-            self.weights.append(np.random.uniform(-1, 1, (layer_sizes[i], layer_sizes[i + 1])))
+            self.weights.append(np.random.uniform(0, 1, (layer_sizes[i], layer_sizes[i + 1])))
             self.biases.append(np.random.uniform(layer_sizes[i + 1]))
 
     def forward(self, inputs):
@@ -81,7 +81,7 @@ class PerceptronMultilayer:
 
             # Calcular error
             error = np.mean((targets - self.forward(inputs)) ** 2)
-            if epoch % 10 == 0:
+            if epoch % 20 == 0:
                 print(f'Epoca {epoch}: Error = {error}')
 
     def predict(self, inputs, umbral=0.5):
