@@ -1,8 +1,15 @@
 import numpy as np
 
 
-def sigmoid(x, derivative=False):
+def tanh(x):
+    return np.tanh(x)
 
+
+def tanh_derivada(x):
+    return 1 - np.tanh(x) ** 2
+
+
+def sigmoid(x, derivative=False):
     if derivative:
         sig = sigmoid(x)
         return sig * (1 - sig)
